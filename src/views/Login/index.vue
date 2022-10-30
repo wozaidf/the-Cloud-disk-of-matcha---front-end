@@ -17,19 +17,21 @@
                     <el-input v-model="user.username" placeholder="请输入用户名" style="border: 2px solid #dcdfe6"></el-input>
                 </el-form-item>
                 <el-form-item>
-                    <el-input v-model="user.password" type="password" placeholder="请输入密码" style="border: 2px solid #dcdfe6"></el-input>
+                    <el-input v-model="user.password" type="password" placeholder="请输入密码"
+                        style="border: 2px solid #dcdfe6"></el-input>
                 </el-form-item>
                 <el-form-item class="login-button">
                     <el-button class="loginButton" @click="login">登录</el-button>
                 </el-form-item>
                 <el-checkbox v-model="checked"></el-checkbox>
-                <span style="font-size:12px;color:#b0b1b3;">我已阅读并同意服务协议</span>
+                <span style="font-size:12px;color:#b0b1b3; margin-left:10px ;">我已阅读并同意服务协议</span>
             </el-form>
         </div>
     </div>
 </template>
 
 <script>
+import {Login} from '@/api/user'
 export default {
     name: '',
     data() {
@@ -43,8 +45,11 @@ export default {
         }
     },
     components: {},
-    methods:{
-        login(){
+    methods: {
+        async login() {
+            console.log(this.user);
+            let result = await Login(this.user);
+            console.log(result);
             this.$router.push('/home/file')
         }
     }
