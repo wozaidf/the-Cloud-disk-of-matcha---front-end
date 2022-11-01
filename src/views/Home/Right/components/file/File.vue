@@ -5,11 +5,21 @@
             文件
          </div>
          <div class="file-header-right">
-            <el-upload class="upload-demo" action="http://127.0.0.1:8081/file/uploadFile" enctype="multipart/form-data"
-               :on-preview="handlePreview" :on-remove="handleRemove" :before-remove="beforeRemove" multiple :limit="3"
-               :on-exceed="handleExceed" :file-list="fileList">
-               <el-button icon="el-icon-upload" style="border:0;">上传</el-button>
-            </el-upload>
+            <el-button @click="drawer = true" type="primary" style="margin-left: 16px;">
+               上传文件
+            </el-button>
+            <el-drawer title="我是标题" :visible.sync="drawer" :with-header="false" class="drawer" >
+               <div>
+                  <el-upload class="upload-demo" drag action="#" :file-list="fileList" :show-file-list="false" multiple ref="upload" :auto-upload="false" :on-change="changeUpload">
+                  <i class="el-icon-upload"></i>
+                  <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
+                  <!-- <div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过500kb</div> -->
+               </el-upload>
+               </div>
+               <div>
+                  <el-button type="primary" @click="submitUpload">上传</el-button>
+               </div>
+            </el-drawer>
          </div>
       </div>
       <div class="file-body">
@@ -21,7 +31,7 @@
                </el-table-column>
                <el-table-column prop="name" label="文件大小" width="200">
                </el-table-column>
-               <el-table-column prop="name" label="描述" width="200">
+               <el-table-column prop="name" label="上传时间" width="200">
                </el-table-column>
                <el-table-column label="操作" prop="prop">
                   <template slot-scope="{row,$index}">
@@ -35,7 +45,7 @@
 </template>
 
 <script>
-import { getFileList } from '@/api/user';
+import { getFileList, uploadFile } from '@/api/user';
 export default {
    name: 'File',
    data() {
@@ -45,17 +55,22 @@ export default {
                name: '王小虎',
             }
          ],
-         fileList: []
+         // 抽屉的展示
+         drawer: false,
+         fileList:[]
+
       }
    },
    components: {},
    methods: {
-      handlePreview() { },
-      handleRemove() {
+      submitUpload(){
+         
       },
-      beforeRemove() { },
-      handleExceed() { },
-      handleExceed() { },
+      // 上传文件之前的回调
+      changeUpload(file,fileList){
+         console.log(file);
+         console.log(fileList);
+      }
    }
 }
 </script>
@@ -99,5 +114,14 @@ export default {
 .file-folder-title {
    margin: 0 0 0 50px;
 
+}
+.upload-demo{
+   
+}
+.drawer{
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   
 }
 </style>
