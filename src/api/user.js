@@ -12,13 +12,12 @@ export const Login = (data) => request({
 export const getFileList = () => request({
     url: '/file/getFileList',
     method: 'get',
-    headers: { 'Content-Type': "multipart/form-data" }
 });
 
 // 上传文件的接口
-export const uploadFile = (data)=>({
-    url:'/file/uploadFile',
-    method:'post',
+export const uploadFileList = (data) => request({
+    url: '/file/uploadFile',
+    method: 'post',
     data,
-    headers: { 'Content-Type': "multipart/form-data" }
+
 })

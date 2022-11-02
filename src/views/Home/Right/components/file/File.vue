@@ -8,13 +8,14 @@
             <el-button @click="drawer = true" type="primary" style="margin-left: 16px;">
                上传文件
             </el-button>
-            <el-drawer title="我是标题" :visible.sync="drawer" :with-header="false" class="drawer" >
+            <el-drawer title="我是标题" :visible.sync="drawer" :with-header="false" class="drawer">
                <div>
-                  <el-upload class="upload-demo" drag action="#" :file-list="fileList" :show-file-list="false" multiple ref="upload" :auto-upload="false" :on-change="changeUpload">
-                  <i class="el-icon-upload"></i>
-                  <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
-                  <!-- <div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过500kb</div> -->
-               </el-upload>
+                  <el-upload class="upload-demo" drag action="#" :file-list="fileList" :show-file-list="false" multiple
+                     ref="upload" :auto-upload="false" :limit="3" :data="uploadData" :http-request="uploadFile" :on-success="successUpload">
+                     <i class="el-icon-upload"></i>
+                     <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
+                     <!-- <div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过500kb</div> -->
+                  </el-upload>
                </div>
                <div>
                   <el-button type="primary" @click="submitUpload">上传</el-button>
@@ -45,7 +46,7 @@
 </template>
 
 <script>
-import { getFileList, uploadFile } from '@/api/user';
+import { getFileList, uploadFileList } from '@/api/user';
 export default {
    name: 'File',
    data() {
@@ -57,19 +58,33 @@ export default {
          ],
          // 抽屉的展示
          drawer: false,
-         fileList:[]
+         fileList: [],
+         uploadData: {}
 
       }
    },
    components: {},
    methods: {
-      submitUpload(){
-         
+      // 点击上传
+      submitUpload() {
+         this.$refs.upload.submit();
       },
-      // 上传文件之前的回调
-      changeUpload(file,fileList){
-         console.log(file);
-         console.log(fileList);
+      // 上传的回调
+      async uploadFile(info) {
+         const { file } = info;
+         let uploadData = new FormData();
+         uploadData.append("file", file);
+         let result = await uploadFileList(uploadData);
+         console.log(result);
+      },
+      // 上传成功的回调
+      successUpload(res){
+            this.$message({
+            type: 'success',
+            message: '上传文件成功'
+            })
+      
+
       }
    }
 }
@@ -115,13 +130,13 @@ export default {
    margin: 0 0 0 50px;
 
 }
-.upload-demo{
-   
-}
-.drawer{
+
+.upload-demo {}
+
+.drawer {
    display: flex;
    align-items: center;
    justify-content: center;
-   
+
 }
 </style>
