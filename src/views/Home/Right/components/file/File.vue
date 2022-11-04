@@ -11,7 +11,8 @@
             <el-drawer title="我是标题" :visible.sync="drawer" :with-header="false" class="drawer">
                <div>
                   <el-upload class="upload-demo" drag action="#" :file-list="fileList" :show-file-list="false" multiple
-                     ref="upload" :auto-upload="false" :limit="3" :data="uploadData" :http-request="uploadFile" :on-success="successUpload">
+                     ref="upload" :auto-upload="false" :limit="3" :data="uploadData" :http-request="uploadFile"
+                     :on-exceed="limitCd" :on-success="successUpload">
                      <i class="el-icon-upload"></i>
                      <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
                      <!-- <div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过500kb</div> -->
@@ -28,11 +29,11 @@
             <el-table :data="fileData" style="width: 100%" border>
                <el-table-column type="index" label="序号" width="80" align="center">
                </el-table-column>
-               <el-table-column prop="name" label="文件名" width="200">
+               <el-table-column prop="filename" label="文件名" width="">
                </el-table-column>
-               <el-table-column prop="name" label="文件大小" width="200">
+               <el-table-column prop="size" label="文件大小(b)" width="200">
                </el-table-column>
-               <el-table-column prop="name" label="上传时间" width="200">
+               <el-table-column prop="fieldname" label="文件类型" width="200">
                </el-table-column>
                <el-table-column label="操作" prop="prop">
                   <template slot-scope="{row,$index}">
@@ -51,11 +52,7 @@ export default {
    name: 'File',
    data() {
       return {
-         fileData: [
-            {
-               name: '王小虎',
-            }
-         ],
+         fileData: [],
          // 抽屉的展示
          drawer: false,
          fileList: [],
@@ -63,8 +60,20 @@ export default {
 
       }
    },
+   mounted() {
+      this.getFileList();
+   },
    components: {},
    methods: {
+      // 获取文件表单数据
+      async getFileList() {
+         let result = await getFileList();
+         console.log(result);
+         if(result.data.status==0){
+
+            this.fileData = result.data.data;
+         }
+      },
       // 点击上传
       submitUpload() {
          this.$refs.upload.submit();
@@ -75,16 +84,29 @@ export default {
          let uploadData = new FormData();
          uploadData.append("file", file);
          let result = await uploadFileList(uploadData);
+         if (result.data.status == 0) {
+            this.$message({
+               type: 'success',
+               message: `${result.data.message}`
+            })
+            this.getFileList();
+         } else {
+            this.$message({
+               type: 'error',
+               message: `${result.data.message}`
+            })
+         }
          console.log(result);
       },
       // 上传成功的回调
-      successUpload(res){
-            this.$message({
-            type: 'success',
-            message: '上传文件成功'
-            })
-      
+      successUpload(res) {
+         // 清除已上传的文件
+         this.$refs.upload.clearFiles();
 
+      },
+      // 超出文件数量的回调
+      limitCd() {
+         this.$message({ type: 'error', message: "上传文件数量超出限制" })
       }
    }
 }

@@ -47,9 +47,7 @@ export default {
     components: {},
     methods: {
         async login() {
-            console.log(this.user);
             let result = await Login(this.user);
-            console.log(result);
             this.$router.push('/home/file')
         }
     }
