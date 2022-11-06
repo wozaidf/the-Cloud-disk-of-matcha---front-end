@@ -99,7 +99,7 @@ export default {
          console.log(result);
       },
       // 上传成功的回调
-      successUpload(res) {
+      successUpload() {
          // 清除已上传的文件
          this.$refs.upload.clearFiles();
 
