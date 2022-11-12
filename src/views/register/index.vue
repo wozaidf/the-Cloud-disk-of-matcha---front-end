@@ -1,6 +1,6 @@
 <template>
-    <div class="login">
-        <div class="login-logo">
+    <div class="register">
+        <div class="register-logo">
             <svg t="1666587056057" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"
                 p-id="4929" width="50" height="50">
                 <path
@@ -11,7 +11,7 @@
             </svg>
             <h1 style="color:#000000; margin-left: 30px; font-size: 18px;">抹茶云盘</h1>
         </div>
-        <div class="login-form">
+        <div class="register-form">
             <el-form label-position="right" :model="user">
                 <el-form-item>
                     <el-input v-model="user.username" placeholder="请输入用户名" style="border: 2px solid #dcdfe6"></el-input>
@@ -20,8 +20,7 @@
                     <el-input v-model="user.password" type="password" placeholder="请输入密码"
                         style="border: 2px solid #dcdfe6"></el-input>
                 </el-form-item>
-                <el-form-item class="login-button">
-                    <el-button class="loginButton" @click="login" :disabled="!checked">登录</el-button>
+                <el-form-item class="register-button">
                     <el-button class="registerButton" @click="register">注册</el-button>
                 </el-form-item>
                 <div>
@@ -34,15 +33,14 @@
 </template>
 
 <script>
-import { Login } from '@/api/user'
-import { set } from 'vue';
+import { register } from '@/api/user'
 export default {
     name: '',
     data() {
         return {
             user: {
-                username: 'wzdf',
-                password: 'Lk200234'
+                username: '',
+                password: ''
             },
             // 是否选择条例
             checked: true
@@ -50,8 +48,8 @@ export default {
     },
     components: {},
     methods: {
-        async login() {
-            let result = await Login(this.user);
+        async register() {
+            let result = await register(this.user);
             console.log(result);
             if (result.data.status == 1) {
                 this.$message({
@@ -61,24 +59,17 @@ export default {
             } else {
                 this.$message({
                     type: "success",
-                    message: "登入成功"
+                    message: "注册成功"
                 });
-                // 存token
-                const { token } = result.data;
-                localStorage.setItem('TOKEN', token);
-                console.log(token);
-                this.$router.push('/home/file');
+                this.$router.push('/login')
             }
-        },
-        register() {
-            this.$router.push('/register')
         }
     }
 }
 </script>
 
 <style scoped>
-.login {
+.register {
     display: flex;
     flex-direction: column;
     height: 100vh;
@@ -88,12 +79,12 @@ export default {
     justify-content: center;
     /* 水平居中 */
 
-    background: url(~@/assets/2.jpeg);
+    background: url(~@/assets/1.jpeg);
     background-size: 100% 100%;
     background-attachment: fixed;
 }
 
-.login-logo {
+.register-logo {
     display: flex;
     align-items: center;
     /* 垂直居中 */
@@ -101,7 +92,7 @@ export default {
     /* 水平居中 */
 }
 
-.login-form {
+.register-form {
     display: flex;
     align-items: center;
     /* 垂直居中 */
@@ -119,20 +110,12 @@ export default {
     flex-direction: column;
 }
 
-.login-button {
+.register-button {
 
     display: flex;
     justify-content: center;
     /* 水平居中 */
 
-}
-
-.loginButton {
-    background-color: #7ec1d7;
-    color: #ffffff;
-    border: 2px solid #ecefff;
-    border-radius: 10px;
-    width: 110px;
 }
 
 
@@ -141,6 +124,6 @@ export default {
     color: #ffffff;
     border: 2px solid #ecefff;
     border-radius: 10px;
-    width: 110px;
+    width: 220px;
 }
 </style>

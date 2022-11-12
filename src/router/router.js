@@ -8,13 +8,13 @@ vue.use(VueRouter);
 const originalPush = VueRouter.prototype.push
 //修改原型对象中的push方法
 VueRouter.prototype.push = function push(location) {
-   return originalPush.call(this, location).catch(err => err)
+    return originalPush.call(this, location).catch(err => err)
 }
 // 创建路由集合
 const routes = [
     {
-        path:'/',
-        redirect:'/login'
+        path: '/',
+        redirect: '/login'
     },
     {
         path: '/home',
@@ -45,8 +45,12 @@ const routes = [
             ]
     },
     {
-        path:'/login',
-        component:()=>import('@/views/Login/index.vue')
+        path: '/login',
+        component: () => import('@/views/Login/index.vue')
+    },
+    {
+        path: '/register',
+        component: () => import('@/views/register/index.vue')
     }
 ];
 

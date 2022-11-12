@@ -70,7 +70,6 @@ export default {
          let result = await getFileList();
          console.log(result);
          if(result.data.status==0){
-
             this.fileData = result.data.data;
          }
       },
@@ -96,7 +95,6 @@ export default {
                message: `${result.data.message}`
             })
          }
-         console.log(result);
       },
       // 上传成功的回调
       successUpload() {

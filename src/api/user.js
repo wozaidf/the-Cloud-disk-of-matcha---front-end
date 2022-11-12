@@ -6,6 +6,13 @@ export const Login = (data) => request({
     data: data,
     // 将提交的数据转换为x-www-form-urlencoded格式
     headers: { 'Content-Type': "application/x-www-form-urlencoded" }
+});
+
+export const register = (data) => request({
+    url: '/user/register',
+    method: 'post',
+    data: data,
+    headers: { 'Content-Type': "application/x-www-form-urlencoded" }
 })
 
 // 获取文件列表的接口
