@@ -24,16 +24,18 @@ service.interceptors.request.use(config => {
 // 设置响应拦截器
 // 这里拦截401错误，并重新跳入登页重新获取token
 service.interceptors.response.use(
-    function (response) {
+    response => {
         // 对响应数据做点什么
         if (response.data.status === 1 && response.data.message === "身份认证失败") {
             // token过期,清除token,强制退回到login
             localStorage.removeItem('TOKEN');
-            console.log(Message);
-            Message.error({ message: "身份过期,请重新登录" })
+            Message.error({ message: "身份过期，请重新登录" })
             Router.replace('/login');
         }
         return response
+    },
+    error => {
+        return Promise.reject(error)
     }
 );
 

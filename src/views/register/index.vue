@@ -50,7 +50,6 @@ export default {
     methods: {
         async register() {
             let result = await register(this.user);
-            console.log(result);
             if (result.data.status == 1) {
                 this.$message({
                     type: "error",

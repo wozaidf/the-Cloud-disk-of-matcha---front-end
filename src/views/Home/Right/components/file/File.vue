@@ -15,7 +15,6 @@
                      :on-exceed="limitCd" :on-success="successUpload">
                      <i class="el-icon-upload"></i>
                      <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
-                     <!-- <div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过500kb</div> -->
                   </el-upload>
                </div>
                <div>
@@ -37,7 +36,7 @@
                </el-table-column>
                <el-table-column label="操作" prop="prop">
                   <template slot-scope="{row,$index}">
-                     <el-button type="danger" icon="el-icon-delete"></el-button>
+                     <el-button type="danger" icon="el-icon-delete" @click="deleteFile(row, $index)"></el-button>
                   </template>
                </el-table-column>
             </el-table>
@@ -47,7 +46,7 @@
 </template>
 
 <script>
-import { getFileList, uploadFileList } from '@/api/user';
+import { getFileList, uploadFileList, deleteFile } from '@/api/user';
 export default {
    name: 'File',
    data() {
@@ -68,9 +67,13 @@ export default {
       // 获取文件表单数据
       async getFileList() {
          let result = await getFileList();
-         console.log(result);
-         if(result.data.status==0){
+         if (result.data.status == 0) {
             this.fileData = result.data.data;
+         } else {
+            this.$message({
+               type: "error",
+               message: result.data.message
+            })
          }
       },
       // 点击上传
@@ -105,6 +108,23 @@ export default {
       // 超出文件数量的回调
       limitCd() {
          this.$message({ type: 'error', message: "上传文件数量超出限制" })
+      },
+      // 删除文件回调
+      async deleteFile(row) {
+         // 传列表数据的id来确定哪个要删除
+         let result = await deleteFile(row.id);
+         if (result.data.status !== 0) {
+            this.$message({
+               type: "error",
+               message: result.data.message
+            })
+         } else {
+            this.$message({
+               type: "success",
+               message: "删除成功"
+            });
+            this.getFileList();
+         }
       }
    }
 }

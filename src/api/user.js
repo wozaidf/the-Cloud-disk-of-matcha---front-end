@@ -8,6 +8,7 @@ export const Login = (data) => request({
     headers: { 'Content-Type': "application/x-www-form-urlencoded" }
 });
 
+// 注册接口 
 export const register = (data) => request({
     url: '/user/register',
     method: 'post',
@@ -26,5 +27,11 @@ export const uploadFileList = (data) => request({
     url: '/file/uploadFile',
     method: 'post',
     data,
+});
 
+// 删除文件接口
+// 用路劲传参
+export const deleteFile = (id) => request({
+    url: `/file/deleteFile/${id}`,
+    method: 'delete',
 })

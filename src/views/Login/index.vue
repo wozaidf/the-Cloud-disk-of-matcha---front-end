@@ -34,8 +34,7 @@
 </template>
 
 <script>
-import { Login } from '@/api/user'
-import { set } from 'vue';
+import { Login } from '@/api/user';
 export default {
     name: '',
     data() {
@@ -52,7 +51,6 @@ export default {
     methods: {
         async login() {
             let result = await Login(this.user);
-            console.log(result);
             if (result.data.status == 1) {
                 this.$message({
                     type: "error",
@@ -66,7 +64,6 @@ export default {
                 // 存token
                 const { token } = result.data;
                 localStorage.setItem('TOKEN', token);
-                console.log(token);
                 this.$router.push('/home/file');
             }
         },
