@@ -60,7 +60,7 @@
          </el-menu>
       </div>
       <div class="logoFooter">
-         <div>用户</div>
+         <div>{{username}}</div>
          <el-dropdown>
             <i class="el-icon-more" style="cursor:pointer;margin:0 0 0 20px"></i>
             <el-dropdown-menu slot="dropdown">
@@ -76,7 +76,9 @@
 export default {
    name: 'LeftMenu',
    data() {
-      return {}
+      return {
+         username: ''
+      }
    },
    components: {},
    methods: {
@@ -84,6 +86,9 @@ export default {
          this.$router.push('/login')
          localStorage.removeItem("TOKEN");
       }
+   },
+   mounted() {
+      this.username = this.$route.query.username
    }
 }
 </script>

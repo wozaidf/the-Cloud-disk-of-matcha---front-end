@@ -64,7 +64,7 @@ export default {
                 // 存token
                 const { token } = result.data;
                 localStorage.setItem('TOKEN', token);
-                this.$router.push('/home/file');
+                this.$router.push({ name: 'File', query: { username: result.data.data } });
             }
         },
         register() {

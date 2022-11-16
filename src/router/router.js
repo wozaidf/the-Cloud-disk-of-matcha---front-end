@@ -17,12 +17,14 @@ const routes = [
         redirect: '/login'
     },
     {
+        name:'Home',
         path: '/home',
         component: () => import('@/views/Home/index.vue'),
         redirect: 'home/file',
         children:
             [
                 {
+                    name: 'File',
                     path: '/home/file',
                     component: () => import('@/views/Home/Right/components/file/File.vue'),
                     // 用requiredPath来判断是否设置路由守卫
