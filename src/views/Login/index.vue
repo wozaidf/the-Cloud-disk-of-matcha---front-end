@@ -26,7 +26,8 @@
                 </el-form-item>
                 <div>
                     <el-checkbox v-model="checked"></el-checkbox>
-                    <span style="font-size:12px;color:#b0b1b3; margin-left:10px ;">我已阅读并同意服务协议</span>
+                    <span style="font-size:12px;color:#b0b1b3; margin-left:10px ;">
+                        <a href="http://127.0.0.1:8081/agreement/index.html" target="_blank">我已阅读并同意服务协议</a></span>
                 </div>
             </el-form>
         </div>
@@ -40,8 +41,8 @@ export default {
     data() {
         return {
             user: {
-                username: 'wzdf',
-                password: 'Lk200234'
+                username: '',
+                password: ''
             },
             // 是否选择条例
             checked: true

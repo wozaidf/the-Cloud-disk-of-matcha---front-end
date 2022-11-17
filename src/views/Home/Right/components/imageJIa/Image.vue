@@ -134,7 +134,6 @@ export default {
       // 获取图片列表的回调
       async getImagesList() {
          let result = await getImagesList();
-         console.log(result);
          if (result.data.status != 0) {
             this.$message({
                type: "error",
